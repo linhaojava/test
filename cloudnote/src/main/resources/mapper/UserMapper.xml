@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="cn.tedu.cloudnote.dao.UserDao">
+	<!-- 处理实体类和数据库字段名不同的问题 -->
+	<resultMap type="cn.tedu.cloudnote.entity.User" id="userResult">
+		<result property="id" column="cn_user_id" />
+		<result property="name" column="cn_user_name" />
+		<result property="password" column="cn_user_password" />
+		<result property="token" column="cn _user_token" />
+		<result property="nick" column="cn_user_nick" />
+	</resultMap>
+	<!-- 根据用户名查询用户信息，用于用户登录 -->
+	<select id="findByName" parameterType="java.lang.String"
+		resultMap="userResult">
+		SELECT * FROM cn_user WHERE cn_user_name=#{name}
+	</select>
+	<!-- 根据用户Id查找用户信息 -->
+	<select id="findUserById" parameterType="java.lang.String"
+		resultMap="userResult">
+		SELECT * FROM cn_user WHERE cn_user_id=#{userId}
+	</select>
+	<!-- 添加用户，用于用户注册 -->
+	<insert id="addUser" parameterType="cn.tedu.cloudnote.entity.User">
+		INSERT INTO cn_user VALUES
+		(#{id},#{name},#{password},#{token},#{nick})
+	</insert>
+	<!-- 更新数据库，用于修改密码 -->
+	<update id="changeUserPass" parameterType="cn.tedu.cloudnote.entity.User">
+		update cn_user set
+		cn_user_password=#{password} where cn_user_id=#{id}
+	</update>
+</mapper>

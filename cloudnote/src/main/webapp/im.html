@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>在线客服</title>
+    <style>
+        .demo{
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 700px;
+            height: 470px;
+        }
+    </style>
+</head>
+<body>
+<div class="demo" id="J_demo"></div>
+<!--[if lt IE 9]>
+<script src="https://g.alicdn.com/aliww/ww/json/json.js" charset="utf-8"></script>
+<![endif]-->
+<!-- 自动适配移动端与pc端 -->
+<script src="https://g.alicdn.com/aliww/??h5.imsdk/2.1.5/scripts/yw/wsdk.js,h5.openim.kit/0.4.0/scripts/kit.js" charset="utf-8"></script>
+<script>
+
+    // http://www.taobao.com/market/seller/openim/kit.php?uid=test0&to=test1&appkey=23018936&pwd=123456&fullscreen
+    var search = location.search.substring(1);
+    var s = search.split('&'),kv;
+    var result = {};
+    for(var i = 0, len = s.length; i < len; i++){
+        kv = s[i].split('=');
+        result[kv[0]] = decodeURIComponent(kv[1]);
+    }
+
+    var touid = result.touid ? result.touid : 'gele66';
+    // 在url上加上fullscreen参数,即可变为全屏
+    if(result.fullscreen){
+        var d = document.getElementById('J_demo');
+        d.parentNode.removeChild(d);
+    }
+
+    window.onload = function(){
+        WKIT.init({
+            container: result.fullscreen ? null : document.getElementById('J_demo'),
+            uid: 'gele_shop4',
+            appkey:  '24464156',
+            credential: 'c3bb188708bffa9f11d476a0793fdc6e',
+            touid: touid, 
+            theme: 'red',
+			//groupId: '162074220',
+			//sendMsgToCustomService:true,  //使用客服模式, 默认值: false
+            title: '客服',
+            sendBtn:true,
+            logo: ' http://alm.com//seller_imgs/seller_logo/logo_thumb/1496688088943756398.jpg',
+            avatar: 'http://alm.com//seller_imgs/seller_logo/logo_thumb/1496688088943756398.jpg',
+            toAvatar:'https://img.alicdn.com/tps/TB1BsZ6JpXXXXaZXpXXXXXXXXXX-81-81.png',
+            //pluginUrl: 'file:///F:/phpStudy/WWW/aa/user.html',
+            customUrl: 'file:///F:/phpStudy/WWW/aa/user.html?touid='+touid  //最近联系人页面
+        });
+    }
+
+</script>
+</body>
+</html>

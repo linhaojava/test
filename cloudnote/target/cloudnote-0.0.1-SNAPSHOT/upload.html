@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="scripts/jquery.min.js"></script>
+</head>
+<body>
+	<h1>Jquery实现上载</h1>
+	<P>
+		<input type="file" id="file1">
+	</P>
+	<P>
+		<input type="button" value="上载" id="AjaxUpload">
+	</P>
+
+	<p id="res"></p>
+
+	<script type="text/javascript">
+		$(function() {
+			$('#AjaxUpload').click(uploadFile);
+		});
+		function uploadFile() {
+			//1.用FormData收集上载数据
+			//2.利用ajax方法上载文件到服务器
+			var data = new FormData();
+			var file1 = $('#file1')[0].files[0];
+			//验证表单
+			if (file1.size > 1000000) {
+				alert('文件太大');
+				return;
+			}
+			data.append('userfile1', file1);
+			//利用ajax方法上载到服务器
+			var url = 'demo/upload.do';
+			$.ajax({
+				url : url,
+				data : data,
+				type : 'post',
+				cache : false,
+				processData : false,
+				contentType : false
+
+			}).done(function(res) {
+				$('#res').html(res);
+			}).fail(function(res) {
+				$('#res').html('fail');
+			});
+		}
+	</script>
+</body>
+</html>

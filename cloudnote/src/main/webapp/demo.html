@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>显示图片</h1>
+	<img alt="" src="demopng">
+	<img alt="" src="demo/png.do">
+	<a href="demo/excel.do">excel</a>
+	<FORM ENCTYPE="multipart/form-data" ACTION="demo/upload.do" METHOD=POST>
+		File to process: <INPUT NAME="userfile1" TYPE="file" id="file1">
+		<INPUT TYPE="submit" VALUE="Send File" id="file2">
+	</FORM>
+	<h1>Ajax上载文件</h1>
+	<p>HXR的2.0版提供了Ajax上载支持，老浏览器不能使用</p>
+	<input type="button" onclick="upload();" value="AJAX Upload">
+	<p id="result"></p>
+	<script type="text/javascript">
+		function upload() {
+			//FormData对象，XHR.onload
+			if (window.FormData) {
+				console.log("FormData OK");
+			}
+			var xhr = new XMLHttpRequest();
+			if (xhr.upload) {
+				console.log("upload OK");
+			}
+			//在内存中动态创建上载对象
+			var form = new FormData();
+			//想表单中添加文件
+			//获取文件输入框中选定的文件对象
+			var file1 = document.getElementById('file1').files[0];
+			console.log(file1);
+			if (file1.size > 1000000) {
+				alert('文件太大了');
+				return;
+			}
+			//绑定回调函数
+			xhr.onload = function() {
+				if (xhr.status == 200) {
+					var s = xhr.responseText;
+					var p = document.getElementById('result');
+					p.innerHTML = s;
+				} else {
+					alert('上载失败');
+				}
+			}
+			form.append('userfile1', file1);
+			xhr.open('post', 'demo/upload.do');
+			xhr.send(form);//发送数据
+		}
+	</script>
+</body>
+</html>

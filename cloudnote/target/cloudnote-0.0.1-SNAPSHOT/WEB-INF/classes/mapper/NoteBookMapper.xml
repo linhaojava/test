@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="cn.tedu.cloudnote.dao.NoteBookDao">
+	<!-- 根据用户Id查找用户对应的笔记本信息 -->
+	<select id="findNoteBookByUserId" parameterType="java.lang.String"
+		resultType="java.util.Map">
+		select
+		cn_notebook_id as id,
+		cn_notebook_name as name
+		from
+		cn_notebook
+		where
+		cn_user_id=#{userId}
+	</select>
+	<!-- 根据笔记本的ID查找对应的笔记本 -->
+	<select id="findNoteBookByNoteBookId" parameterType="java.lang.String"
+		resultType="cn.tedu.cloudnote.entity.NoteBook">
+		select *
+		from cn_notebook
+		where cn_notebook_id=#{noteBookId}
+	</select>
+	<!-- 创建笔记本 -->
+	<insert id="createNoteBook" parameterType="cn.tedu.cloudnote.entity.NoteBook">
+		insert into
+		cn_notebook
+		(cn_notebook_id,cn_user_id,cn_notebook_name,cn_notebook_createtime)
+		values(#{cn_notebook_id},#{cn_user_id},#{cn_notebook_name},#{cn_notebook_createtime})
+	</insert>
+	<select id="findNoteBookByPage" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		select cn_notebook_id as id,cn_notebook_name as name
+		from
+		cn_notebook
+		where cn_user_id=#{userId}
+		order by cn_notebook_createtime
+		asc
+		limit #{start},#{size}
+	</select>
+</mapper>
